@@ -1,22 +1,16 @@
-import { NativeModules, Platform } from 'react-native';
+import { NativeModules, NativeEventEmitter } from 'react-native';
+import { ResultCode, type AppUpdateInfo } from './types';
 
-const LINKING_ERROR =
-  `The package 'react-native-rustore-update' doesn't seem to be linked. Make sure: \n\n` +
-  Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
-  '- You rebuilt the app after installing the package\n' +
-  '- You are not using Expo Go\n';
-
-const RustoreUpdate = NativeModules.RustoreUpdate
-  ? NativeModules.RustoreUpdate
-  : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(LINKING_ERROR);
-        },
-      }
-    );
-
-export function multiply(a: number, b: number): Promise<number> {
-  return RustoreUpdate.multiply(a, b);
+interface RustoreUpdateModule {
+  init: () => void;
+  getAppUpdateInfo: () => Promise<AppUpdateInfo>;
+  startUpdateFlow: () => Promise<ResultCode>;
+  completeUpdate: () => Promise<boolean>;
 }
+
+export default NativeModules.RustoreUpdate as RustoreUpdateModule;
+
+const eventEmitter = new NativeEventEmitter(NativeModules.RustoreUpdate);
+
+export { eventEmitter };
+export * from './types';
