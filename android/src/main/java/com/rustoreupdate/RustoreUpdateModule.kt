@@ -64,7 +64,6 @@ class RustoreUpdateModule(reactContext: ReactApplicationContext) :
     }
   }
 
-
   @ReactMethod
   fun startUpdateFlow(promise: Promise) {
     val appUpdateInfo = this.appUpdateInfo
@@ -94,12 +93,12 @@ class RustoreUpdateModule(reactContext: ReactApplicationContext) :
   }
 
   @ReactMethod
-  fun addListener() {
+  fun addListener(eventName: String) {
     appUpdateManager.registerListener(installStateUpdateListener)
   }
 
   @ReactMethod
-  fun removeListeners() {
+  fun removeListeners(count: Int) {
     appUpdateManager.unregisterListener(installStateUpdateListener)
   }
 

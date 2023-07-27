@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-
 import {
   StyleSheet,
   View,
   Text,
   TouchableOpacity,
   type EmitterSubscription,
+  ToastAndroid,
 } from 'react-native';
 import RustoreUpdateClient, {
   eventEmitter,
@@ -39,7 +39,11 @@ export default function App() {
       async (installState: InstallState) => {
         switch (installState.installStatus) {
           case InstallStatus.DOWNLOADED: {
-            await RustoreUpdateClient.completeUpdate();
+            try {
+              await RustoreUpdateClient.completeUpdate();
+            } catch (err) {
+              setError(JSON.stringify(err));
+            }
             break;
           }
           case InstallStatus.DOWNLOADING: {
@@ -68,6 +72,11 @@ export default function App() {
         if (resultCode === ResultCode.RESULT_CANCELED) {
           setError('Пользователь отказался от скачивания');
         }
+      } else if (
+        appUpdateInfo.updateAvailability ===
+        UpdateAvailability.UPDATE_NOT_AVAILABLE
+      ) {
+        ToastAndroid.show('Обновлений нет', ToastAndroid.LONG);
       }
     } catch (err) {
       setError(JSON.stringify(err));
