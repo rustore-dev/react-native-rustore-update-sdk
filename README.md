@@ -86,8 +86,8 @@ interface AppUpdateInfo {
   availableVersionCode: number;
   installStatus: InstallStatus;
 }
-
 ```
+
 - `updatedAt` - дата обновления
 - `packageName` - имя пакета
 - `updatePriority` - приоритет обновления
@@ -112,7 +112,6 @@ interface AppUpdateInfo {
 После подтверждения доступности обновления вы можете запросить у пользователя скачивание обновления, но перед этим необходимо запустить слушатель статуса скачивания обновления, используя метод `eventEmitter.addListener`:
 
 ```typescript
-
 const listener = useRef<EmitterSubscription>();
 
 listener.current = eventEmitter.addListener(Events.INSTALL_STATE_UPDATE, (installState: InstallState) => {
