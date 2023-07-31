@@ -9,7 +9,7 @@ export enum ResultCode {
 
 export interface InstallState {
   bytesDownloaded?: number;
-  installErrorCode?: number;
+  installErrorCode?: InstallErrorCode;
   installStatus?: InstallStatus;
   packageName?: string;
   totalBytesToDownload?: number;
@@ -38,4 +38,18 @@ export interface AppUpdateInfo {
   updateAvailability: UpdateAvailability;
   availableVersionCode: number;
   installStatus: InstallStatus;
+}
+
+export enum InstallErrorCode {
+  UPDATE_ERROR_DOWNLOAD = 4002,
+  UPDATE_ERROR_BLOCKED = 4003,
+  UPDATE_ERROR_INVALID_APK = 4004,
+  UPDATE_ERROR_CONFLICT = 4005,
+  UPDATE_ERROR_STORAGE = 4006,
+  UPDATE_ERROR_INCOMPATIBLE = 4007,
+  UPDATE_ERROR_APP_NOT_OWNED = 4008,
+  UPDATE_ERROR_INTERNAL_ERROR = 4009,
+  UPDATE_ERROR_ABORTED = 4010,
+  UPDATE_ERROR_APK_NOT_FOUND = 4011,
+  UPDATE_ERROR_EXTERNAL_SOURCE_DENIED = 4012,
 }

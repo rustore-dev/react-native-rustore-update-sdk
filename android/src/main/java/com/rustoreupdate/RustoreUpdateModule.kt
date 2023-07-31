@@ -1,6 +1,5 @@
 package com.rustoreupdate
 
-import android.app.Activity
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
@@ -14,9 +13,7 @@ import ru.rustore.sdk.appupdate.manager.RuStoreAppUpdateManager
 import ru.rustore.sdk.appupdate.manager.factory.RuStoreAppUpdateManagerFactory
 import ru.rustore.sdk.appupdate.model.AppUpdateInfo
 import ru.rustore.sdk.appupdate.model.AppUpdateOptions
-import ru.rustore.sdk.appupdate.model.InstallState
 import ru.rustore.sdk.appupdate.model.InstallStatus
-import ru.rustore.sdk.appupdate.model.UpdateAvailability
 
 class RustoreUpdateModule(reactContext: ReactApplicationContext) :
   ReactContextBaseJavaModule(reactContext) {
@@ -109,26 +106,28 @@ class RustoreUpdateModule(reactContext: ReactApplicationContext) :
   }
 
   private val installStateUpdateListener = InstallStateUpdateListener { installState ->
+    val params = WritableNativeMap().apply {
+      putInt("installStatus", installState.installStatus)
+    }
+
     when (installState.installStatus) {
-      InstallStatus.DOWNLOADED -> {
-        val params = WritableNativeMap().apply {
-          putInt("installStatus", installState.installStatus)
-        }
-        sendEvent(reactContext, "InstallStateUpdate", params)
-      }
       InstallStatus.DOWNLOADING -> {
-        val params = WritableNativeMap().apply {
-          putInt("installStatus", installState.installStatus)
+        params.apply {
           putInt("totalBytesToDownload", installState.totalBytesToDownload.toInt())
           putInt("bytesDownloaded", installState.bytesDownloaded.toInt())
         }
         sendEvent(reactContext, "InstallStateUpdate", params)
       }
       InstallStatus.FAILED -> {
-        val params = WritableNativeMap().apply {
-          putInt("installStatus", installState.installStatus)
+        params.apply {
           putInt("installErrorCode", installState.installErrorCode)
         }
+        sendEvent(reactContext, "InstallStateUpdate", params)
+      }
+      InstallStatus.PENDING,
+      InstallStatus.INSTALLING,
+      InstallStatus.DOWNLOADED,
+      InstallStatus.UNKNOWN -> {
         sendEvent(reactContext, "InstallStateUpdate", params)
       }
     }
