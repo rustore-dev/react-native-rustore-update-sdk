@@ -31,7 +31,11 @@ RuStore In-app updates SDK помогает поддерживать актуа�
 Для подключения пакета к проекту нужно выполнить команду
 
 ```sh
-npm install react-native-rustore-update
+// HTTPS
+npm install git+https://git@gitflic.ru:rustore/react-native-rustore-update-sdk.git
+
+// SSH
+npm install git+ssh://git@gitflic.ru:rustore/react-native-rustore-update-sdk.git
 ```
 
 ## Запрос обновления

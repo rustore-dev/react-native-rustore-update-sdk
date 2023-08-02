@@ -51,7 +51,7 @@ class RustoreUpdateModule(reactContext: ReactApplicationContext) :
         putString("packageName", appUpdateInfo.packageName)
         putInt("updatePriority", appUpdateInfo.updatePriority)
         putInt("updateAvailability", appUpdateInfo.updateAvailability)
-        putInt("availableVersionCode", appUpdateInfo.availableVersionCode)
+        putInt("availableVersionCode", appUpdateInfo.availableVersionCode.toInt())
         putInt("installStatus", appUpdateInfo.installStatus)
       }
 
