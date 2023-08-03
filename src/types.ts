@@ -40,6 +40,12 @@ export interface AppUpdateInfo {
   installStatus: InstallStatus;
 }
 
+export enum AppUpdateType {
+  FLEXIBLE = 0,
+  IMMEDIATE = 1,
+  SILENT = 2,
+}
+
 export enum InstallErrorCode {
   UPDATE_ERROR_DOWNLOAD = 4002,
   UPDATE_ERROR_BLOCKED = 4003,

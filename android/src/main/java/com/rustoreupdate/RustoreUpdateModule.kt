@@ -22,7 +22,7 @@ class RustoreUpdateModule(reactContext: ReactApplicationContext) :
 
   private var appUpdateInfo: AppUpdateInfo? = null
 
-  companion object{
+  companion object {
     lateinit var appUpdateManager: RuStoreAppUpdateManager
   }
 
@@ -31,7 +31,7 @@ class RustoreUpdateModule(reactContext: ReactApplicationContext) :
   }
 
   @ReactMethod
-  fun init(){
+  fun init() {
     if (isInitCalled) {
       return
     }
@@ -62,13 +62,15 @@ class RustoreUpdateModule(reactContext: ReactApplicationContext) :
   }
 
   @ReactMethod
-  fun startUpdateFlow(promise: Promise) {
+  fun startUpdateFlow(appUpdateType: Int?, promise: Promise) {
     val appUpdateInfo = this.appUpdateInfo
 
     if (appUpdateInfo != null) {
       try {
-        val appUpdateOptions = AppUpdateOptions.Builder().build()
-        val resultCode = appUpdateManager.startUpdateFlow(appUpdateInfo, appUpdateOptions).await()
+        val appUpdateOptions = AppUpdateOptions.Builder()
+        appUpdateType?.let { appUpdateOptions.appUpdateType(it) }
+        val resultCode =
+          appUpdateManager.startUpdateFlow(appUpdateInfo, appUpdateOptions.build()).await()
         promise.resolve(resultCode)
       } catch (throwable: Throwable) {
         promise.reject(throwable)
@@ -80,7 +82,7 @@ class RustoreUpdateModule(reactContext: ReactApplicationContext) :
   }
 
   @ReactMethod
-  fun completeUpdate(promise: Promise){
+  fun completeUpdate(promise: Promise) {
     try {
       appUpdateManager.completeUpdate().await()
       promise.resolve(true)
@@ -118,12 +120,14 @@ class RustoreUpdateModule(reactContext: ReactApplicationContext) :
         }
         sendEvent(reactContext, "InstallStateUpdate", params)
       }
+
       InstallStatus.FAILED -> {
         params.apply {
           putInt("installErrorCode", installState.installErrorCode)
         }
         sendEvent(reactContext, "InstallStateUpdate", params)
       }
+
       InstallStatus.PENDING,
       InstallStatus.INSTALLING,
       InstallStatus.DOWNLOADED,
