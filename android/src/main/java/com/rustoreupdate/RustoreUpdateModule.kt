@@ -41,9 +41,7 @@ class RustoreUpdateModule(reactContext: ReactApplicationContext) :
 
   @ReactMethod
   fun getAppUpdateInfo(promise: Promise) {
-    try {
-      val appUpdateInfo = appUpdateManager.getAppUpdateInfo().await()
-
+    appUpdateManager.getAppUpdateInfo().addOnSuccessListener { appUpdateInfo ->
       this.appUpdateInfo = appUpdateInfo
 
       val response = WritableNativeMap().apply {
@@ -56,7 +54,7 @@ class RustoreUpdateModule(reactContext: ReactApplicationContext) :
       }
 
       promise.resolve(response)
-    } catch (throwable: Throwable) {
+    }.addOnFailureListener { throwable ->
       promise.reject(throwable)
     }
   }
@@ -65,28 +63,27 @@ class RustoreUpdateModule(reactContext: ReactApplicationContext) :
   fun startUpdateFlow(appUpdateType: Int?, promise: Promise) {
     val appUpdateInfo = this.appUpdateInfo
 
-    if (appUpdateInfo != null) {
-      try {
-        val appUpdateOptions = AppUpdateOptions.Builder()
-        appUpdateType?.let { appUpdateOptions.appUpdateType(it) }
-        val resultCode =
-          appUpdateManager.startUpdateFlow(appUpdateInfo, appUpdateOptions.build()).await()
-        promise.resolve(resultCode)
-      } catch (throwable: Throwable) {
-        promise.reject(throwable)
-      }
-    } else {
+    if (appUpdateInfo == null) {
       val throwable = Throwable(message = "false")
       promise.reject(throwable)
+      return;
     }
+
+    val appUpdateOptions = AppUpdateOptions.Builder()
+    appUpdateType?.let { appUpdateOptions.appUpdateType(it) }
+    appUpdateManager.startUpdateFlow(appUpdateInfo, appUpdateOptions.build())
+      .addOnSuccessListener { resultCode ->
+        promise.resolve(resultCode)
+      }.addOnFailureListener { throwable ->
+        promise.reject(throwable)
+      }
   }
 
   @ReactMethod
   fun completeUpdate(promise: Promise) {
-    try {
-      appUpdateManager.completeUpdate().await()
+    appUpdateManager.completeUpdate().addOnSuccessListener {
       promise.resolve(true)
-    } catch (throwable: Throwable) {
+    }.addOnFailureListener { throwable ->
       promise.reject(throwable)
     }
   }
