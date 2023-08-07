@@ -7,14 +7,6 @@ export enum ResultCode {
   RESULT_CANCELED = 0,
 }
 
-export interface InstallState {
-  bytesDownloaded?: number;
-  installErrorCode?: InstallErrorCode;
-  installStatus?: InstallStatus;
-  packageName?: string;
-  totalBytesToDownload?: number;
-}
-
 export enum InstallStatus {
   UNKNOWN = 0,
   DOWNLOADED = 1,
@@ -22,6 +14,14 @@ export enum InstallStatus {
   FAILED = 3,
   INSTALLING = 4,
   PENDING = 5,
+}
+
+export interface InstallState {
+  bytesDownloaded?: number;
+  installErrorCode?: InstallErrorCode;
+  installStatus?: InstallStatus;
+  packageName?: string;
+  totalBytesToDownload?: number;
 }
 
 export enum UpdateAvailability {
