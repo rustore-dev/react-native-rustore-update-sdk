@@ -102,7 +102,7 @@ dependencies {
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  implementation "ru.rustore.sdk:appupdate:0.2.0"
+  implementation "ru.rustore.sdk:appupdate:1.+"
 }
 
 if (isNewArchitectureEnabled()) {
