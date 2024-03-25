@@ -63,19 +63,14 @@ export default function App() {
   const handleUpdate = async () => {
     try {
       const appUpdateInfo = await RustoreUpdateClient.getAppUpdateInfo();
-      if (
-        appUpdateInfo.updateAvailability === UpdateAvailability.UPDATE_AVAILABLE
-      ) {
+      if (appUpdateInfo.updateAvailability === UpdateAvailability.UPDATE_AVAILABLE) {
         registerListener();
 
-        const resultCode = await RustoreUpdateClient.startUpdateFlow();
+        const resultCode = await RustoreUpdateClient.download();
         if (resultCode === ResultCode.RESULT_CANCELED) {
           setError('Пользователь отказался от скачивания');
         }
-      } else if (
-        appUpdateInfo.updateAvailability ===
-        UpdateAvailability.UPDATE_NOT_AVAILABLE
-      ) {
+      } else if ( appUpdateInfo.updateAvailability ===UpdateAvailability.UPDATE_NOT_AVAILABLE) {
         ToastAndroid.show('Обновлений нет', ToastAndroid.LONG);
       }
     } catch (err) {

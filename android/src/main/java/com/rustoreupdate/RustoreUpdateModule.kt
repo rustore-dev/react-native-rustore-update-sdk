@@ -13,6 +13,7 @@ import ru.rustore.sdk.appupdate.manager.RuStoreAppUpdateManager
 import ru.rustore.sdk.appupdate.manager.factory.RuStoreAppUpdateManagerFactory
 import ru.rustore.sdk.appupdate.model.AppUpdateInfo
 import ru.rustore.sdk.appupdate.model.AppUpdateOptions
+import ru.rustore.sdk.appupdate.model.AppUpdateType
 import ru.rustore.sdk.appupdate.model.InstallStatus
 
 class RustoreUpdateModule(reactContext: ReactApplicationContext) :
@@ -60,23 +61,18 @@ class RustoreUpdateModule(reactContext: ReactApplicationContext) :
   }
 
   @ReactMethod
-  fun startUpdateFlow(appUpdateType: Int?, promise: Promise) {
-    val appUpdateInfo = this.appUpdateInfo
+  fun download(promise: Promise) {
+    startUpdateFlow(AppUpdateType.FLEXIBLE, promise)
+  }
 
-    if (appUpdateInfo == null) {
-      val throwable = Throwable(message = "false")
-      promise.reject(throwable)
-      return;
-    }
+  @ReactMethod
+  fun immediate(promise: Promise) {
+    startUpdateFlow(AppUpdateType.IMMEDIATE, promise)
+  }
 
-    val appUpdateOptions = AppUpdateOptions.Builder()
-    appUpdateType?.let { appUpdateOptions.appUpdateType(it) }
-    appUpdateManager.startUpdateFlow(appUpdateInfo, appUpdateOptions.build())
-      .addOnSuccessListener { resultCode ->
-        promise.resolve(resultCode)
-      }.addOnFailureListener { throwable ->
-        promise.reject(throwable)
-      }
+  @ReactMethod
+  fun silent(promise: Promise) {
+    startUpdateFlow(AppUpdateType.SILENT, promise)
   }
 
   @ReactMethod
@@ -96,6 +92,23 @@ class RustoreUpdateModule(reactContext: ReactApplicationContext) :
   @ReactMethod
   fun removeListeners(count: Int) {
     appUpdateManager.unregisterListener(installStateUpdateListener)
+  }
+
+  private fun startUpdateFlow(appUpdateType: Int, promise: Promise) {
+    val appUpdateInfo = this.appUpdateInfo
+    if (appUpdateInfo == null) {
+      val throwable = Throwable(message = "false")
+      promise.reject(throwable)
+      return
+    }
+
+    val appUpdateOptions =  AppUpdateOptions.Builder().appUpdateType(appUpdateType)
+    appUpdateManager.startUpdateFlow(appUpdateInfo, appUpdateOptions.build())
+      .addOnSuccessListener { resultCode ->
+        promise.resolve(resultCode)
+      }.addOnFailureListener { throwable ->
+        promise.reject(throwable)
+      }
   }
 
   private fun sendEvent(reactContext: ReactContext, eventName: String, params: WritableMap?) {

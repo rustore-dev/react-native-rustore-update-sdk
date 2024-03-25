@@ -1,10 +1,12 @@
 import { NativeModules, NativeEventEmitter } from 'react-native';
-import { ResultCode, type AppUpdateInfo, AppUpdateType } from './types';
+import { ResultCode, type AppUpdateInfo } from './types';
 
 interface RustoreUpdateModule {
   init: () => void;
   getAppUpdateInfo: () => Promise<AppUpdateInfo>;
-  startUpdateFlow: (appUpdateType?: AppUpdateType) => Promise<ResultCode>;
+  download: () => Promise<ResultCode>;
+  immediate: () => Promise<ResultCode>;
+  silent: () => Promise<ResultCode>;
   completeUpdate: () => Promise<boolean>;
 }
 
