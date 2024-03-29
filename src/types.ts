@@ -5,6 +5,7 @@ export enum Events {
 export enum ResultCode {
   RESULT_OK = -1,
   RESULT_CANCELED = 0,
+  ACTIVITY_NOT_FOUND = 2
 }
 
 export enum InstallStatus {
