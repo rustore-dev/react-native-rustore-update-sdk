@@ -14,6 +14,7 @@ import RustoreUpdateClient, {
   InstallStatus,
   ResultCode,
   UpdateAvailability,
+  AppUpdateType,
 } from 'react-native-rustore-update';
 
 export default function App() {
@@ -40,7 +41,7 @@ export default function App() {
         switch (installState.installStatus) {
           case InstallStatus.DOWNLOADED: {
             try {
-              await RustoreUpdateClient.completeUpdate();
+              await RustoreUpdateClient.completeUpdate(AppUpdateType.FLEXIBLE);
             } catch (err) {
               setError(JSON.stringify(err));
             }
@@ -67,6 +68,7 @@ export default function App() {
         registerListener();
 
         const resultCode = await RustoreUpdateClient.download();
+        
         if (resultCode === ResultCode.RESULT_CANCELED) {
           setError('Пользователь отказался от скачивания');
         }

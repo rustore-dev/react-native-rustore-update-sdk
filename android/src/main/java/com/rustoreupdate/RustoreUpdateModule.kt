@@ -76,8 +76,8 @@ class RustoreUpdateModule(reactContext: ReactApplicationContext) :
   }
 
   @ReactMethod
-  fun completeUpdate(promise: Promise) {
-    appUpdateManager.completeUpdate().addOnSuccessListener {
+  fun completeUpdate(type: Int, promise: Promise) {
+    appUpdateManager.completeUpdate(AppUpdateOptions.Builder().appUpdateType(type).build()).addOnSuccessListener {
       promise.resolve(true)
     }.addOnFailureListener { throwable ->
       promise.reject(throwable)

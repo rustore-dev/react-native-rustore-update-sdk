@@ -69,7 +69,7 @@ def enableProguardInReleaseBuilds = false
 def jscFlavor = 'org.webkit:android-jsc:+'
 
 def keystoreProperties = new Properties()
-def keystorePropertiesFile = rootProject.file('key.properties')
+def keystorePropertiesFile = rootProject.file('release.properties')
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
@@ -89,16 +89,16 @@ android {
     }
     signingConfigs {
         debug {
-            storeFile file('debug.keystore')
+            storeFile file('release.keystore')
             storePassword 'android'
-            keyAlias 'androiddebugkey'
+            keyAlias 'androidreleasekey'
             keyPassword 'android'
         }
          release {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
+            keyAlias keystoreProperties['key_alias']
+            keyPassword keystoreProperties['key_password']
             storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-            storePassword keystoreProperties['storePassword']
+            storePassword keystoreProperties['store_password']
         }
     }
     buildTypes {

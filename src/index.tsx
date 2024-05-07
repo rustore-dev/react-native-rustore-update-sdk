@@ -7,7 +7,7 @@ interface RustoreUpdateModule {
   download: () => Promise<ResultCode>;
   immediate: () => Promise<ResultCode>;
   silent: () => Promise<ResultCode>;
-  completeUpdate: () => Promise<boolean>;
+  completeUpdate: (type: number) => Promise<boolean>;
 }
 
 export default NativeModules.RustoreUpdate as RustoreUpdateModule;
