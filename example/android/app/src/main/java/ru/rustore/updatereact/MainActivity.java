@@ -1,4 +1,4 @@
-package com.rustoreupdateexample;
+package ru.rustore.updatereact;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
