@@ -28,7 +28,6 @@ RuStore In-app updates SDK помогает поддерживать актуа�
 
 ```sh
 // HTTPS
-npm install git+https://git@gitflic.ru/project/rustore/react-native-rustore-update-sdk.git
 
 // SSH
 npm install git+ssh://git@gitflic.ru/project/rustore/react-native-rustore-update-sdk.git
