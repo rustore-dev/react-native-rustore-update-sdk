@@ -1,3 +1,33 @@
+<!-- ── Language switch (RU active) ──────────────────────────────────── -->
+<div align="left" style="margin:0 0 14px 0;">
+
+  <span style="display:inline-block;
+               padding:.28rem .6rem;
+               border:1px solid rgba(0,0,0,.18);
+               border-radius:10px 0 0 10px;
+               font-weight:400;
+               font-size:12px;
+               letter-spacing:.06em;
+               color:#111827;
+               background:linear-gradient(180deg,#e9edf2,#ffffff);
+               box-shadow:inset 0 2px 6px rgba(0,0,0,.10);">
+    RU
+  </span><span style="display:inline-block;
+               margin-left:-1px;
+               padding:.28rem .6rem;
+               border:1px solid rgba(0,0,0,.14);
+               border-radius:0 10px 10px 0;
+               font-weight:400;
+               font-size:12px;
+               letter-spacing:.06em;
+               background:linear-gradient(180deg,#ffffff,#f3f4f6);
+               box-shadow:0 1px 0 rgba(0,0,0,.06);">
+    [EN][en]
+  </span>
+
+</div>
+<!-- ────────────────────────────────────────────────────────────────── -->
+
 # react-native-rustore-update
 
 React Native RuStore SDK для обновления приложения
@@ -33,6 +63,8 @@ npm install git+https://git@gitflic.ru/project/rustore/react-native-rustore-upda
 // SSH
 npm install git+ssh://git@gitflic.ru/project/rustore/react-native-rustore-update-sdk.git
 ```
+
+Нативный Android SDK загружается из [Maven-репозитория RuStore](https://nexus-external.rustore.ru/repository/maven-rustore-exposed). Репозиторий подключается автоматически в [`android/build.gradle`](android/build.gradle).
 
 ## Запрос обновления
 Для работы механизма обновлений необходимо выполнить инициализацию SDK
@@ -267,3 +299,5 @@ enum InstallErrorCode {
 - `UPDATE_ERROR_ABORTED` - Пользователь отказался от установки обновления.
 - `UPDATE_ERROR_APK_NOT_FOUND` - apk для запуска установки не найден.
 - `UPDATE_ERROR_EXTERNAL_SOURCE_DENIED` - Запуск обновления запрещён. Например, в первом методе вернулся ответ о том, что обновление недоступно, но пользователь вызывает второй метод.
+
+[en]: README.en.md

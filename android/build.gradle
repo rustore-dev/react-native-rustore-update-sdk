@@ -87,7 +87,7 @@ android {
 rootProject.allprojects {
     repositories {
         maven {
-            url = uri("https://artifactory-external.vkpartner.ru/artifactory/maven")
+            url = uri("https://nexus-external.rustore.ru/repository/maven-rustore-exposed")
         }
         google()
         mavenCentral()
@@ -102,7 +102,7 @@ dependencies {
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  implementation "ru.rustore.sdk:appupdate:6.+"
+  implementation "ru.rustore.sdk:appupdate:10.5.1"
 }
 
 if (isNewArchitectureEnabled()) {

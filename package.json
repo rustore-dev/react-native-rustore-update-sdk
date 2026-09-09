@@ -1,6 +1,6 @@
 {
   "name": "react-native-rustore-update",
-  "version": "0.1.0",
+  "version": "10.5.1",
   "description": "RuStore Update SDK",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
